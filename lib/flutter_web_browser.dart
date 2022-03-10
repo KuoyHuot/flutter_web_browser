@@ -55,6 +55,29 @@ extension CustomTabsShareStateExtension on CustomTabsShareState {
   }
 }
 
+class CustomTabsAnimationParams {
+  final String? startEnter;
+  final String? startExit;
+  final String? exitEnter;
+  final String? exitExit;
+
+  const CustomTabsAnimationParams({
+    this.startEnter: 'android:anim/fade_in',
+    this.startExit: 'android:anim/fade_out',
+    this.exitEnter: 'android:anim/fade_in',
+    this.exitExit: 'android:anim/fade_out',
+  });
+
+  Map<String, dynamic> toMethodChannelArgumentMap() {
+    return {
+      'startEnter': startEnter,
+      'startExit': startExit,
+      'exitEnter': exitEnter,
+      'exitExit': exitExit,
+    };
+  }
+}
+
 class CustomTabsColorSchemeParams {
   final Color? toolbarColor;
   final Color? secondaryToolbarColor;
@@ -92,6 +115,7 @@ class CustomTabsOptions {
   final CustomTabsColorSchemeParams? lightColorSchemeParams;
   final CustomTabsColorSchemeParams? darkColorSchemeParams;
   final CustomTabsColorSchemeParams? defaultColorSchemeParams;
+  final CustomTabsAnimationParams? animationParams;
   final bool instantAppsEnabled;
   final bool? addDefaultShareMenuItem;
   final CustomTabsShareState? shareState;
@@ -109,6 +133,7 @@ class CustomTabsOptions {
     this.lightColorSchemeParams,
     this.darkColorSchemeParams,
     this.defaultColorSchemeParams,
+    this.animationParams,
     this.instantAppsEnabled = false,
     @Deprecated('Use shareState instead') this.addDefaultShareMenuItem,
     this.shareState,
@@ -210,6 +235,9 @@ class FlutterWebBrowser {
             ) ??
             CustomTabsShareState.default_;
 
+    final CustomTabsAnimationParams customTabsAnimationParams =
+        customTabsOptions.animationParams ?? const CustomTabsAnimationParams();
+
     return _channel.invokeMethod('openWebPage', {
       "url": url,
       'android_options': {
@@ -220,6 +248,7 @@ class FlutterWebBrowser {
             ?.toMethodChannelArgumentMap(),
         'defaultColorSchemeParams':
             customTabsDefaultColorSchemeParams.toMethodChannelArgumentMap(),
+        'animation': customTabsAnimationParams.toMethodChannelArgumentMap(),
         'instantAppsEnabled': customTabsOptions.instantAppsEnabled,
         'shareState': customTabsShareState.index,
         'showTitle': customTabsOptions.showTitle,

@@ -3,11 +3,16 @@ package dev.vbonnet.flutterwebbrowser;
 import android.app.Activity;
 import android.graphics.Color;
 import android.net.Uri;
+
+import androidx.annotation.AnimRes;
+import androidx.annotation.NonNull;
 import androidx.browser.customtabs.CustomTabColorSchemeParams;
 import androidx.browser.customtabs.CustomTabsClient;
 import androidx.browser.customtabs.CustomTabsIntent;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.regex.Pattern;
+
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
@@ -72,6 +77,34 @@ public class MethodCallHandlerImpl implements MethodCallHandler {
       builder.setShareState(shareState);
     }
 
+    // Animation
+    int startEnterResId = -1;
+    int startExitResId = 1;
+    int exitEnterResId = -1;
+    int exitExitResId = 1;
+
+    HashMap<String, Object> animationParamsMap = (HashMap<String, Object>) options.get("animation");
+
+    String startEnter = (String) animationParamsMap.get("startEnter");
+    if(startEnter != null){
+      startEnterResId = resolveAnimationIdentifierIfNeeded((startEnter));
+    }
+    String startExit = (String) animationParamsMap.get("startExit");
+    if(startExit != null){
+      startExitResId = resolveAnimationIdentifierIfNeeded((startExit));
+    }
+    String exitEnter = (String) animationParamsMap.get("exitEnter");
+    if(exitEnter != null){
+      exitEnterResId = resolveAnimationIdentifierIfNeeded((exitEnter));
+    }
+    String exitExit = (String) animationParamsMap.get("exitExit");
+    if(exitExit != null){
+      exitExitResId = resolveAnimationIdentifierIfNeeded((exitExit));
+    }
+
+    builder.setStartAnimations(activity, startEnterResId, startExitResId);
+    builder.setExitAnimations(activity, exitEnterResId, exitExitResId);
+
     builder.setShowTitle((Boolean) options.get("showTitle"));
 
     builder.setUrlBarHidingEnabled((Boolean) options.get("urlBarHidingEnabled"));
@@ -107,6 +140,17 @@ public class MethodCallHandlerImpl implements MethodCallHandler {
     }
 
     return builder.build();
+  }
+
+
+  @AnimRes
+  private int resolveAnimationIdentifierIfNeeded(@NonNull String identifier) {
+    final Pattern animationIdentifierPattern = Pattern.compile("^android:anim/");
+    if (animationIdentifierPattern.matcher(identifier).find()) {
+      return activity.getResources().getIdentifier(identifier, null, null);
+    } else {
+      return activity.getResources().getIdentifier(identifier, "anim", activity.getPackageName());
+    }
   }
 
   private void warmup(Result result) {
