@@ -86,21 +86,17 @@ public class MethodCallHandlerImpl implements MethodCallHandler {
     HashMap<String, Object> animationParamsMap = (HashMap<String, Object>) options.get("animation");
 
     String startEnter = (String) animationParamsMap.get("startEnter");
-    if(startEnter != null){
-      startEnterResId = resolveAnimationIdentifierIfNeeded((startEnter));
-    }
+    startEnterResId = resolveAnimationIdentifierIfNeeded((startEnter));
+
     String startExit = (String) animationParamsMap.get("startExit");
-    if(startExit != null){
-      startExitResId = resolveAnimationIdentifierIfNeeded((startExit));
-    }
+    startExitResId = resolveAnimationIdentifierIfNeeded((startExit));
+
     String exitEnter = (String) animationParamsMap.get("exitEnter");
-    if(exitEnter != null){
-      exitEnterResId = resolveAnimationIdentifierIfNeeded((exitEnter));
-    }
+    exitEnterResId = resolveAnimationIdentifierIfNeeded((exitEnter));
+
     String exitExit = (String) animationParamsMap.get("exitExit");
-    if(exitExit != null){
-      exitExitResId = resolveAnimationIdentifierIfNeeded((exitExit));
-    }
+    exitExitResId = resolveAnimationIdentifierIfNeeded((exitExit));
+
 
     builder.setStartAnimations(activity, startEnterResId, startExitResId);
     builder.setExitAnimations(activity, exitEnterResId, exitExitResId);

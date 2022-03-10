@@ -62,10 +62,10 @@ class CustomTabsAnimationParams {
   final String? exitExit;
 
   const CustomTabsAnimationParams({
-    this.startEnter: 'android:anim/fade_in',
-    this.startExit: 'android:anim/fade_out',
-    this.exitEnter: 'android:anim/fade_in',
-    this.exitExit: 'android:anim/fade_out',
+    this.startEnter: 'android:anim/slide_in_right',
+    this.startExit: 'android:anim/slide_out_left',
+    this.exitEnter: 'android:anim/slide_in_left',
+    this.exitExit: 'android:anim/slide_out_right',
   });
 
   Map<String, dynamic> toMethodChannelArgumentMap() {
