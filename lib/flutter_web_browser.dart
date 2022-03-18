@@ -235,9 +235,6 @@ class FlutterWebBrowser {
             ) ??
             CustomTabsShareState.default_;
 
-    final CustomTabsAnimationParams customTabsAnimationParams =
-        customTabsOptions.animationParams ?? const CustomTabsAnimationParams();
-
     return _channel.invokeMethod('openWebPage', {
       "url": url,
       'android_options': {
@@ -248,7 +245,8 @@ class FlutterWebBrowser {
             ?.toMethodChannelArgumentMap(),
         'defaultColorSchemeParams':
             customTabsDefaultColorSchemeParams.toMethodChannelArgumentMap(),
-        'animation': customTabsAnimationParams.toMethodChannelArgumentMap(),
+        'animation':
+            customTabsOptions.animationParams?.toMethodChannelArgumentMap(),
         'instantAppsEnabled': customTabsOptions.instantAppsEnabled,
         'shareState': customTabsShareState.index,
         'showTitle': customTabsOptions.showTitle,

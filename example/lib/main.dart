@@ -93,6 +93,23 @@ class _MyAppState extends State<MyApp> {
                     },
                     child: Text('Open Flutter website'),
                   ),
+                  RaisedButton(
+                    onPressed: () {
+                      FlutterWebBrowser.openWebPage(
+                        url: "https://flutter.io/",
+                        customTabsOptions: CustomTabsOptions(
+                          animationParams: const CustomTabsAnimationParams(
+                            // reference to animation xml file in android/app/src/main/res/anim
+                            startEnter: 'slide_up',
+                            startExit: 'android:anim/fade_out',
+                            exitEnter: 'android:anim/fade_in',
+                            exitExit: 'slide_down',
+                          ),
+                        ),
+                      );
+                    },
+                    child: Text('Open Flutter website with custom animation'),
+                  ),
                 ],
                 if (Platform.isIOS) ...[
                   Text('test iOS customizations'),

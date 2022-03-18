@@ -85,21 +85,22 @@ public class MethodCallHandlerImpl implements MethodCallHandler {
 
     HashMap<String, Object> animationParamsMap = (HashMap<String, Object>) options.get("animation");
 
-    String startEnter = (String) animationParamsMap.get("startEnter");
-    startEnterResId = resolveAnimationIdentifierIfNeeded((startEnter));
+    if(animationParamsMap != null) {
+      String startEnter = (String) animationParamsMap.get("startEnter");
+      startEnterResId = resolveAnimationIdentifierIfNeeded((startEnter));
 
-    String startExit = (String) animationParamsMap.get("startExit");
-    startExitResId = resolveAnimationIdentifierIfNeeded((startExit));
+      String startExit = (String) animationParamsMap.get("startExit");
+      startExitResId = resolveAnimationIdentifierIfNeeded((startExit));
 
-    String exitEnter = (String) animationParamsMap.get("exitEnter");
-    exitEnterResId = resolveAnimationIdentifierIfNeeded((exitEnter));
+      String exitEnter = (String) animationParamsMap.get("exitEnter");
+      exitEnterResId = resolveAnimationIdentifierIfNeeded((exitEnter));
 
-    String exitExit = (String) animationParamsMap.get("exitExit");
-    exitExitResId = resolveAnimationIdentifierIfNeeded((exitExit));
+      String exitExit = (String) animationParamsMap.get("exitExit");
+      exitExitResId = resolveAnimationIdentifierIfNeeded((exitExit));
 
-
-    builder.setStartAnimations(activity, startEnterResId, startExitResId);
-    builder.setExitAnimations(activity, exitEnterResId, exitExitResId);
+      builder.setStartAnimations(activity, startEnterResId, startExitResId);
+      builder.setExitAnimations(activity, exitEnterResId, exitExitResId);
+    }
 
     builder.setShowTitle((Boolean) options.get("showTitle"));
 
